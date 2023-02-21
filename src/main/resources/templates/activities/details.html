@@ -28,6 +28,10 @@
       </li>
     </ul>
     <a th:href="@{{id}/edit(id = ${activity.getId()})}" class="btn btn-outline-warning" role="button">Edit</a>
+    <form th:method="DELETE" th:action="@{/activities/{id}(id=${activity.getId()})}" th:object="${activity}">
+      <button class="btn btn-outline-danger" type="submit">Delete</button>
+    </form>
+
   </div>
 </div>
 </body>
