@@ -6,6 +6,7 @@ import ru.ialexdm.activitycreator.models.Activity;
 import ru.ialexdm.activitycreator.repositories.ActivitiesRepository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Transactional(readOnly = true)
@@ -19,5 +20,10 @@ public class ActivitiesService {
 
     public List<Activity> findAll(){
         return activitiesRepository.findAll();
+    }
+
+    public Activity findOne(int id) {
+        Optional<Activity> activity = activitiesRepository.findById(id);
+        return activity.orElse(null);
     }
 }
