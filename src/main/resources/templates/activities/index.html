@@ -9,6 +9,7 @@
 <body>
 <div class="container-lg">
 <header th:insert="~{layouts/header}"/>
+    <a class="btn btn-outline-dark" href="/activities/new" role="button">new</a>
     <div th:if="${activities.isEmpty()}">
         <p> No actual activities</p>
     </div>

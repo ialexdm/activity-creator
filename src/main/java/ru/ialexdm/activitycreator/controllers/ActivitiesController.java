@@ -1,18 +1,22 @@
 package ru.ialexdm.activitycreator.controllers;
 
+import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.*;
+import ru.ialexdm.activitycreator.models.Activity;
 import ru.ialexdm.activitycreator.services.ActivitiesService;
+import ru.ialexdm.activitycreator.utils.ActivityValidator;
 
 @Controller
 @RequestMapping("/activities")
 public class ActivitiesController {
     private final ActivitiesService activitiesService;
-    public ActivitiesController(ActivitiesService activitiesService) {
+    private final ActivityValidator activityValidator;
+    public ActivitiesController(ActivitiesService activitiesService, ActivityValidator activityValidator) {
         this.activitiesService = activitiesService;
+        this.activityValidator = activityValidator;
     }
 
     @GetMapping
@@ -24,5 +28,22 @@ public class ActivitiesController {
     public String details(@PathVariable(name = "id") int id, Model model){
         model.addAttribute(activitiesService.findOne(id));
         return "activities/details";
+    }
+    @GetMapping("/new")
+    public String newActivity(@ModelAttribute("activity")Activity activity)
+    {
+        return "activities/new";
+    }
+    @PostMapping()
+    public String create(@ModelAttribute("activity") @Valid Activity activity, BindingResult bindingResult)
+    {
+        activityValidator.validate(activity, bindingResult);
+
+        if (bindingResult.hasErrors())
+        {
+            return "activities/new";
+        }
+        activitiesService.save(activity);
+        return "redirect:/activities";
     }
 }

@@ -26,4 +26,8 @@ public class ActivitiesService {
         Optional<Activity> activity = activitiesRepository.findById(id);
         return activity.orElse(null);
     }
+    @Transactional
+    public void save(Activity activity) {
+        activitiesRepository.save(activity);
+    }
 }
