@@ -1,0 +1,13 @@
+package ru.ialexdm.activitycreator;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+@SpringBootApplication
+public class ActivityCreatorWebApplication {
+
+	public static void main(String[] args) {
+		SpringApplication.run(ActivityCreatorWebApplication.class, args);
+	}
+
+}
