@@ -63,4 +63,9 @@ public class ActivitiesController {
         activitiesService.update(id, activity);
         return "redirect:/activities/{id}";
     }
+    @DeleteMapping("{id}")
+    public String delete(@PathVariable("id") int id){
+        activitiesService.delete(id);
+        return "redirect:/activities";
+    }
 }

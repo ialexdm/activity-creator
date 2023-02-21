@@ -36,4 +36,9 @@ public class ActivitiesService {
         activity.setId(id);
         activitiesRepository.save(activity);
     }
+
+    @Transactional
+    public void delete(int id) {
+        activitiesRepository.deleteById(id);
+    }
 }

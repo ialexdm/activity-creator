@@ -22,7 +22,7 @@
                 <h5 class="card-title" th:text="${activity.getTitle()}">Card title</h5>
                 <p th:text="'Location: ' + ${activity.getSite()} + ','" class="card-text">This is a longer card with supporting </p>
                 <p th:text="'Begin: ' + ${#temporals.format(activity.getBeginning(), 'dd MMMM yy')}" class="card-text"></p>
-                <a th:href="@{/activities/{id}(id = ${activity.getId()})}" class="btn btn-primary">Show details</a>
+                <a th:href="@{/activities/{id}(id = ${activity.getId()})}" class="btn btn-dark">Show details</a>
             </div>
         </div>
     </div>
