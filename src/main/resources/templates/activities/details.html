@@ -20,11 +20,11 @@
       </li>
       <li class="list-group-item">
         <b>Begin date: </b>
-        <p th:text="${#temporals.format(activity.getBeginning(), 'dd MMMM yy')}"></p>
+        <p th:text="${#temporals.format(activity.getBeginning(), 'HH:mm, dd MMMM YYYY')}"></p>
       </li>
       <li class="list-group-item">
         <b>End date: </b>
-        <p th:text="${#temporals.format(activity.getEnding(), 'dd MMMM yy')}"></p>
+        <p th:text="${#temporals.format(activity.getEnding(), 'HH:mm, dd MMMM YYYY')}"></p>
       </li>
     </ul>
   </div>

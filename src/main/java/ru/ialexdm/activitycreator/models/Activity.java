@@ -1,6 +1,7 @@
 package ru.ialexdm.activitycreator.models;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
@@ -15,20 +16,19 @@ public class Activity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     int id;
 
-    @NotNull
-    @Size(min = 2, max = 128)
+    @NotEmpty(message = "Field should not be empty")
+    @Size(min = 2, max = 128,  message = "Field should be greater than 2 and less than 128 letters")
     String title;
 
-    @NotNull
-    @Size(min = 2, max = 128)
+    @NotEmpty(message = "Field should not be empty")
+    @Size(min = 2, max = 128,  message = "Field should be greater than 2 and less than 128 letters")
     //TODO location should be geoPosition
     String site;
 
-    @NotNull
-            //TODO begin time should be after now
+    @NotNull(message = "Field should not be empty")
     LocalDateTime beginning;
 
-    @NotNull
-            //TODO finish time should be after begin time
+    @NotNull(message = "Field should not be empty")
     LocalDateTime ending;
+
 }
