@@ -7,3 +7,9 @@ spring.datasource.password=
 # Hibernate configuration
 spring.jpa.properties.hibernate.dialect=
 spring.jpa.properties.hibernate.show_sql=
+
+# Enabling PUT PATCH DELETE
+spring.mvc.hiddenmethod.filter.enabled=true
+
+# Set format date time for show in datetime picker
+spring.mvc.format.date-time=yyyy-MM-dd'T'HH:mm

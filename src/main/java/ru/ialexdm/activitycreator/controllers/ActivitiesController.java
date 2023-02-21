@@ -46,4 +46,21 @@ public class ActivitiesController {
         activitiesService.save(activity);
         return "redirect:/activities";
     }
+    @GetMapping("/{id}/edit")
+    public String edit(@PathVariable("id") int id, Model model)
+    {
+        model.addAttribute("activity", activitiesService.findOne(id));
+        return "activities/edit";
+    }
+    @PatchMapping("{id}")
+    public String edit(@PathVariable("id")int id, @ModelAttribute("activity") @Valid Activity activity, BindingResult bindingResult)
+    {
+        activityValidator.validate(activity, bindingResult);
+        if (bindingResult.hasErrors())
+        {
+            return "activities/edit";
+        }
+        activitiesService.update(id, activity);
+        return "redirect:/activities/{id}";
+    }
 }

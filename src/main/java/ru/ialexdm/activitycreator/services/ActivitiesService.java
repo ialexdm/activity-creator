@@ -30,4 +30,10 @@ public class ActivitiesService {
     public void save(Activity activity) {
         activitiesRepository.save(activity);
     }
+
+    @Transactional
+    public void update(int id, Activity activity) {
+        activity.setId(id);
+        activitiesRepository.save(activity);
+    }
 }
