@@ -17,8 +17,7 @@ public class ActivityValidator implements Validator {
     public void validate(Object target, Errors errors) {
         Activity activity = (Activity) target;
         if (activity.getEnding() != null && activity.getBeginning() != null && activity.getBeginning().isAfter(activity.getEnding())){
-            errors.rejectValue("beginning","", "Activity must begin before end");
-            errors.rejectValue("ending","", "Activity must begin before end");
+            errors.rejectValue("ending","", "Activity must end after begin");
         }
 
     }
