@@ -41,8 +41,15 @@
     <div class="card-header">
       <p>Participants: </p>
     </div>
-    <ul th:each="participant : ${participants}"  class="list-group list-group-flush">
-      <li th:text="${participant.getName()}" class="list-group-item">Participant</li>
+    <ul class="list-group list-group-flush">
+      <li th:each="participant : ${participants}" class="list-group-item">
+      <p th:text="${participant.getName()}"/>
+        <form th:method="DELETE"
+              th:action="@{/activities/{id}/participant/{participant-id}(id=${activity.getId()},
+            participant-id = ${participant.getId()})}">
+          <button class="btn btn-outline-danger" type="submit">remove</button>
+        </form>
+      </li>
     </ul>
     <form th:method="PATCH" th:action="@{/activities/{id}/add-participant(id = ${activity.getId()})}" th:object="${newParticipant}">
       <textarea th:attr="class=${#fields.hasErrors('name')  ? 'form-control is-invalid': ''}" placeholder="enter participant name" class="form-control" th:field="*{name}" id="name"></textarea>
