@@ -3,7 +3,9 @@ package ru.ialexdm.activitycreator.services;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.ialexdm.activitycreator.models.Activity;
+import ru.ialexdm.activitycreator.models.Participant;
 import ru.ialexdm.activitycreator.repositories.ActivitiesRepository;
+import ru.ialexdm.activitycreator.repositories.ParticipantsRepository;
 
 import java.util.List;
 import java.util.Optional;
@@ -13,9 +15,11 @@ import java.util.Optional;
 public class ActivitiesService {
 
     private final ActivitiesRepository activitiesRepository;
+    private final ParticipantsRepository participantsRepository;
 
-    public ActivitiesService(ActivitiesRepository activitiesRepository) {
+    public ActivitiesService(ActivitiesRepository activitiesRepository, ParticipantsRepository participantsRepository) {
         this.activitiesRepository = activitiesRepository;
+        this.participantsRepository = participantsRepository;
     }
 
     public List<Activity> findAll(){
@@ -40,5 +44,11 @@ public class ActivitiesService {
     @Transactional
     public void delete(int id) {
         activitiesRepository.deleteById(id);
+    }
+
+    @Transactional
+    public void addParticipant(Activity activity, Participant participant) {
+        participant.setActivity(activity);
+        participantsRepository.save(participant);
     }
 }

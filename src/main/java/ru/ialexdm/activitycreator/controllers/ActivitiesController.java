@@ -6,6 +6,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import ru.ialexdm.activitycreator.models.Activity;
+import ru.ialexdm.activitycreator.models.Participant;
 import ru.ialexdm.activitycreator.services.ActivitiesService;
 import ru.ialexdm.activitycreator.utils.ActivityValidator;
 
@@ -25,8 +26,11 @@ public class ActivitiesController {
         return "activities/index";
     }
     @GetMapping("/{id}")
-    public String details(@PathVariable(name = "id") int id, Model model){
-        model.addAttribute(activitiesService.findOne(id));
+    public String details(@PathVariable(name = "id") int id, @ModelAttribute("newParticipant")Participant participant, Model model){
+        Activity activity = activitiesService.findOne(id);
+        model.addAttribute("activity", activity);
+        model.addAttribute("participants", activity.getParticipants());
+
         return "activities/details";
     }
     @GetMapping("/new")
@@ -67,5 +71,16 @@ public class ActivitiesController {
     public String delete(@PathVariable("id") int id){
         activitiesService.delete(id);
         return "redirect:/activities";
+    }
+
+    @PatchMapping("{id}/add-participant")
+    public String addParticipant(@ModelAttribute("activity") Activity activity,@ModelAttribute("newParticipant")@Valid Participant participant, BindingResult bindingResult){
+        if (bindingResult.hasErrors())
+        {
+            return "activities/details";
+        }
+        activitiesService.addParticipant(activity, participant);
+
+        return "redirect:/activities/{id}";
     }
 }
