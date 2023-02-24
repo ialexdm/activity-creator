@@ -6,6 +6,7 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
 import java.time.LocalDateTime;
+import java.util.List;
 
 
 @Data
@@ -29,5 +30,8 @@ public class Activity {
 
     @NotNull(message = "Field should not be empty")
     LocalDateTime ending;
+
+    @OneToMany(mappedBy = "activity", fetch = FetchType.LAZY)
+    List<Participant> participants;
 
 }

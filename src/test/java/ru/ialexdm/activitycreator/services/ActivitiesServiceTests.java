@@ -7,6 +7,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import ru.ialexdm.activitycreator.models.Activity;
 import ru.ialexdm.activitycreator.repositories.ActivitiesRepository;
+import ru.ialexdm.activitycreator.repositories.ParticipantsRepository;
 
 import java.util.Optional;
 
@@ -16,16 +17,19 @@ class ActivitiesServiceTests {
 
     @Mock
     private ActivitiesRepository activitiesRepository;
-
+    @Mock
+    private ParticipantsRepository participantsRepository;
     @InjectMocks
     private ActivitiesService activitiesService;
     private int id = 1;
     private Activity activity;
 
+
+
     @BeforeEach
     void setUp() {
         activitiesRepository = mock(ActivitiesRepository.class);
-        activitiesService = new ActivitiesService(activitiesRepository);
+        activitiesService = new ActivitiesService(activitiesRepository, participantsRepository);
     }
 
     @Test
