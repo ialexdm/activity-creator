@@ -31,7 +31,9 @@ public class Activity {
     @NotNull(message = "Field should not be empty")
     LocalDateTime ending;
 
-    @OneToMany(mappedBy = "activity", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "activity", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+            //TODO instead Hibernate: delete from participant where id=?
+    //             Hibernate: delete from participant where activity_id=?
     List<Participant> participants;
 
 }

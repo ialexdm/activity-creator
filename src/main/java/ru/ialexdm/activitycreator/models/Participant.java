@@ -17,7 +17,7 @@ public class Participant {
     @Size(min = 2, max = 128)
     String name;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "activity_id")
     Activity activity;
 }

@@ -51,4 +51,9 @@ public class ActivitiesService {
         participant.setActivity(activity);
         participantsRepository.save(participant);
     }
+
+    @Transactional
+    public void removeParticipant(int id) {
+        participantsRepository.deleteById(id);
+    }
 }

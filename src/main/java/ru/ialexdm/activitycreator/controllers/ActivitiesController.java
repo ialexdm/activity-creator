@@ -83,4 +83,12 @@ public class ActivitiesController {
 
         return "redirect:/activities/{id}";
     }
+
+    @DeleteMapping("{id}/participant/{participant-id}")
+    public String removeParticipant(
+                                    @PathVariable("participant-id") int participantId){
+        activitiesService.removeParticipant(participantId);
+        return "redirect:/activities/{id}";
+    }
+
 }
