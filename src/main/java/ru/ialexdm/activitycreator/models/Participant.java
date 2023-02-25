@@ -5,6 +5,9 @@ import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
 
+import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
+
 @Data
 @Entity
 public class Participant {
@@ -15,18 +18,26 @@ public class Participant {
 
     @NotEmpty(message = "Participant name must be from 2 to 128 letters")
     @Size(min = 2, max = 128)
-    String name;
+    private String name;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "activity_id")
-    Activity activity;
+    private Activity activity;
 
+    @OneToMany (mappedBy = "participant", cascade = CascadeType.REMOVE)
+    List<Contribution> contributions;
 
     /**
      * Method returns required amount for activity
      * @return required amount is activity amount per participant
      */
+
     public int getRequiredAmount(){
-        return activity.amount / activity.getParticipants().size();
+        return (activity.getAmount() / activity.getParticipants().size()) - getContributionAmount();
+    }
+    public int getContributionAmount(){
+        AtomicInteger amount = new AtomicInteger();
+        contributions.forEach(contribution -> amount.addAndGet(contribution.getAmount()));
+        return amount.get();
     }
 }
