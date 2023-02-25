@@ -1,10 +1,12 @@
 package ru.ialexdm.activitycreator.models;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
+
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -35,5 +37,8 @@ public class Activity {
             //TODO instead Hibernate: delete from participant where id=?
     //             Hibernate: delete from participant where activity_id=?
     List<Participant> participants;
+
+    @Min(value = 0, message = "Amount shouldn't be negative")
+    int amount;
 
 }

@@ -20,4 +20,13 @@ public class Participant {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "activity_id")
     Activity activity;
+
+
+    /**
+     * Method returns required amount for activity
+     * @return required amount is activity amount per participant
+     */
+    public int getRequiredAmount(){
+        return activity.amount / activity.getParticipants().size();
+    }
 }
