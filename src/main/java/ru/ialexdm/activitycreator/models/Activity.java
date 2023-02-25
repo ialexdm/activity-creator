@@ -9,6 +9,7 @@ import lombok.Data;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 
 
 @Data
@@ -16,29 +17,38 @@ import java.util.List;
 public class Activity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    int id;
+    private int id;
 
     @NotEmpty(message = "Field should not be empty")
     @Size(min = 2, max = 128,  message = "Field should be greater than 2 and less than 128 letters")
-    String title;
+    private String title;
 
     @NotEmpty(message = "Field should not be empty")
     @Size(min = 2, max = 128,  message = "Field should be greater than 2 and less than 128 letters")
     //TODO location should be geoPosition
-    String site;
+    private String site;
 
     @NotNull(message = "Field should not be empty")
-    LocalDateTime beginning;
+    private LocalDateTime beginning;
 
     @NotNull(message = "Field should not be empty")
-    LocalDateTime ending;
+    private LocalDateTime ending;
 
     @OneToMany(mappedBy = "activity", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
             //TODO instead Hibernate: delete from participant where id=?
     //             Hibernate: delete from participant where activity_id=?
-    List<Participant> participants;
+    private List<Participant> participants;
 
     @Min(value = 0, message = "Amount shouldn't be negative")
-    int amount;
+    private int amount;
+
+    private int getContributions(){
+        AtomicInteger contributions = new AtomicInteger();
+        participants.forEach(participant -> contributions.addAndGet(participant.getContributionAmount()));
+        return contributions.get();
+    }
+    public int getRemains(){
+        return amount - getContributions();
+    }
 
 }

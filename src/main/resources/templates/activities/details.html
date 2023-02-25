@@ -31,14 +31,16 @@
       <li class="list-group-item">
         <b>Amount: </b>
         <h3><span th:text="${activity.getAmount()} + ' ₽'"></span></h3>
+        <b>Remains: </b>
+        <h3><span th:text="${activity.getRemains()} + ' ₽'"></span></h3>
       </li>
     </ul>
     <a th:href="@{{id}/edit(id = ${activity.getId()})}" class="btn btn-outline-warning" role="button">Edit</a>
     <form th:method="DELETE" th:action="@{/activities/{id}(id=${activity.getId()})}" th:object="${activity}">
       <button class="btn btn-outline-danger" type="submit">Delete</button>
     </form>
-
-  </div>
+      <a class="btn btn-outline-success" th:href="@{/activities/{id}/contribute(id = ${activity.getId()})}">Contribute</a>
+    </div>
     </div>
     <div class="col">
   <div class="card" style="width: 18rem;">
@@ -60,7 +62,6 @@
       <button type="submit" class="btn btn-outline-dark">Add</button>
       <div class="invalid-feedback" th:errors="*{name}">name error</div>
     </form>
-
   </div>
 </div>
   </div>

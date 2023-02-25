@@ -82,7 +82,7 @@
     </div>
     <div class="mb-3">
       <label for="amount" class="form-label">Amount</label>
-      <input type="text" th:attr="class=${#fields.hasErrors('amount')  ? 'form-control is-invalid': 'form-control is-valid'}" th:field="*{amount}" id="amount"/>
+      <input type="number" th:attr="class=${#fields.hasErrors('amount')  ? 'form-control is-invalid': 'form-control is-valid'}" th:field="*{amount}" id="amount"/>
       <div class="invalid-feedback"  th:errors="*{amount}">amount error</div>
       <div class="invalid-feedback" th:if="${!#fields.hasErrors('amount')}" >ok</div>
     </div>

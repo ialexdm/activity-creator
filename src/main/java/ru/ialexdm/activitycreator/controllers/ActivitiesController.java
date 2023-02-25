@@ -6,6 +6,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import ru.ialexdm.activitycreator.models.Activity;
+import ru.ialexdm.activitycreator.models.Contribution;
 import ru.ialexdm.activitycreator.models.Participant;
 import ru.ialexdm.activitycreator.services.ActivitiesService;
 import ru.ialexdm.activitycreator.utils.ActivityValidator;
@@ -26,7 +27,9 @@ public class ActivitiesController {
         return "activities/index";
     }
     @GetMapping("/{id}")
-    public String details(@PathVariable(name = "id") int id, @ModelAttribute("newParticipant")Participant participant, Model model){
+    public String details(@PathVariable(name = "id") int id,
+                          @ModelAttribute("newParticipant")Participant participant,
+                          Model model){
         Activity activity = activitiesService.findOne(id);
         model.addAttribute("activity", activity);
         model.addAttribute("participants", activity.getParticipants());
@@ -55,6 +58,13 @@ public class ActivitiesController {
     {
         model.addAttribute("activity", activitiesService.findOne(id));
         return "activities/edit";
+    }
+    @GetMapping("{id}/contribute")
+    public String contribute(@PathVariable("id") int id,
+                                @ModelAttribute("contribution")Contribution contribution,
+                                Model model){
+        model.addAttribute("activity", activitiesService.findOne(id));
+        return "contributes/new";
     }
     @PatchMapping("{id}")
     public String edit(@PathVariable("id")int id, @ModelAttribute("activity") @Valid Activity activity, BindingResult bindingResult)
@@ -90,5 +100,6 @@ public class ActivitiesController {
         activitiesService.removeParticipant(participantId);
         return "redirect:/activities/{id}";
     }
+
 
 }
