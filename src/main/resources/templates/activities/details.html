@@ -1,70 +1,79 @@
 <!doctype html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
+
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Activity Creator</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
 </head>
+
 <body>
-<div class="container-lg">
-<header th:insert="~{layouts/header}"/>
-  <div class="row row-cols-1 row-cols-md-3 g-4">
-    <div class="col">
-    <div class="card" style="width: 18rem;">
-    <div class="card-header">
-      <h4 th:text="${activity.getTitle()}"></h4>
-    </div>
-    <ul class="list-group list-group-flush">
-      <li class="list-group-item">
-        <b>Location: </b>
-        <span th:text="${activity.getSite()}"></span>
-      </li>
-      <li class="list-group-item">
-        <b>Begin date: </b>
-        <p th:text="${#temporals.format(activity.getBeginning(), 'HH:mm, dd MMMM YYYY')}"></p>
-      </li>
-      <li class="list-group-item">
-        <b>End date: </b>
-        <p th:text="${#temporals.format(activity.getEnding(), 'HH:mm, dd MMMM YYYY')}"></p>
-      </li>
-      <li class="list-group-item">
-        <b>Amount: </b>
-        <h3><span th:text="${activity.getAmount()} + ' ₽'"></span></h3>
-        <b>Remains: </b>
-        <h3><span th:text="${activity.getRemains()} + ' ₽'"></span></h3>
-      </li>
-    </ul>
-    <a th:href="@{{id}/edit(id = ${activity.getId()})}" class="btn btn-outline-warning" role="button">Edit</a>
-    <form th:method="DELETE" th:action="@{/activities/{id}(id=${activity.getId()})}" th:object="${activity}">
-      <button class="btn btn-outline-danger" type="submit">Delete</button>
-    </form>
-      <a class="btn btn-outline-success" th:href="@{/activities/{id}/contribute(id = ${activity.getId()})}">Contribute</a>
-    </div>
-    </div>
-    <div class="col">
-  <div class="card" style="width: 18rem;">
-    <div class="card-header">
-      <p>Participants: </p>
-    </div>
-    <ul class="list-group list-group-flush">
-      <li th:each="participant : ${participants}" class="list-group-item">
-        <span><h3 th:text="${participant.getName()}"/><h4 th:text="${participant.getRequiredAmount()} + ' ₽'"/></span>
-        <form th:method="DELETE"
-              th:action="@{/activities/{id}/participant/{participant-id}(id=${activity.getId()},
+  <div class="container-lg">
+    <header th:insert="~{layouts/header}" />
+    <div class="row row-cols-1 row-cols-md-3 g-4">
+      <div class="col">
+        <div class="card" style="width: 18rem;">
+          <div class="card-header">
+            <h4 th:text="${activity.getTitle()}"></h4>
+          </div>
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item">
+              <b>Location: </b>
+              <span th:text="${activity.getSite()}"></span>
+            </li>
+            <li class="list-group-item">
+              <b>Begin date: </b>
+              <p th:text="${#temporals.format(activity.getBeginning(), 'HH:mm, dd MMMM YYYY')}"></p>
+            </li>
+            <li class="list-group-item">
+              <b>End date: </b>
+              <p th:text="${#temporals.format(activity.getEnding(), 'HH:mm, dd MMMM YYYY')}"></p>
+            </li>
+            <li class="list-group-item">
+              <b>Amount: </b>
+              <h3><span th:text="${activity.getAmount()} + ' ₽'"></span></h3>
+              <b>Remains: </b>
+              <h3><span th:text="${activity.getRemains()} + ' ₽'"></span></h3>
+            </li>
+          </ul>
+          <a th:href="@{{id}/edit(id = ${activity.getId()})}" class="btn btn-outline-warning" role="button">Edit</a>
+          <form th:method="DELETE" th:action="@{/activities/{id}(id=${activity.getId()})}" th:object="${activity}">
+            <button class="btn btn-outline-danger" type="submit">Delete</button>
+          </form>
+          <a class="btn btn-outline-success"
+            th:href="@{/activities/{id}/contribute(id = ${activity.getId()})}">Contribute</a>
+        </div>
+      </div>
+      <div class="col">
+        <div class="card" style="width: 18rem;">
+          <div class="card-header">
+            <p>Participants: </p>
+          </div>
+          <ul class="list-group list-group-flush">
+            <li th:each="participant : ${participants}" class="list-group-item">
+              <span>
+                <h3 th:text="${participant.getName()}" />
+                <h4 th:text="${participant.getRequiredAmount()} + ' ₽'" />
+              </span>
+              <form th:method="DELETE" th:action="@{/activities/{id}/participant/{participant-id}(id=${activity.getId()},
             participant-id = ${participant.getId()})}">
-          <button class="btn btn-outline-danger" type="submit">remove</button>
-        </form>
-      </li>
-    </ul>
-    <form th:method="PATCH" th:action="@{/activities/{id}/add-participant(id = ${activity.getId()})}" th:object="${newParticipant}">
-      <textarea th:attr="class=${#fields.hasErrors('name')  ? 'form-control is-invalid': ''}" placeholder="enter participant name" class="form-control" th:field="*{name}" id="name"></textarea>
-      <button type="submit" class="btn btn-outline-dark">Add</button>
-      <div class="invalid-feedback" th:errors="*{name}">name error</div>
-    </form>
+                <button class="btn btn-outline-danger" type="submit">remove</button>
+              </form>
+            </li>
+          </ul>
+          <form th:method="PATCH" th:action="@{/activities/{id}/add-participant(id = ${activity.getId()})}"
+            th:object="${newParticipant}">
+            <textarea th:attr="class=${#fields.hasErrors('name')  ? 'form-control is-invalid': ''}"
+              placeholder="enter participant name" class="form-control" th:field="*{name}" id="name"></textarea>
+            <button type="submit" class="btn btn-outline-dark">Add</button>
+            <div class="invalid-feedback" th:errors="*{name}">name error</div>
+          </form>
+        </div>
+      </div>
+    </div>
   </div>
-</div>
-  </div>
-</div>
 </body>
+
 </html>
